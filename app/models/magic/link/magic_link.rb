@@ -27,6 +27,10 @@ module Magic
             user.sign_in_token_sent_at = Time.current
             user.save(validate: false)
             raw
+          else
+            p 'could not create token...'
+            p user
+            p force 
           end
         end
     end
