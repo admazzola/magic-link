@@ -4,8 +4,9 @@ module Magic
       include ActiveModel::Model
       attr_accessor :email
 
-      def send_login_instructions(force)
-        token = set_sign_in_token(force)
+      def send_login_instructions( )
+
+        token = set_sign_in_token( )
         send_magic_link_email(token) if token
         token
       end
@@ -20,8 +21,8 @@ module Magic
           MagicLinkMailer.send_magic_link(email, token).deliver_later
         end
 
-        def set_sign_in_token(force )
-          if user && (force || (user.sign_in_token.blank? || user.sign_in_token_sent_at < Magic::Link.token_expiration_hours.hours.ago))
+        def set_sign_in_token(force: false)
+          if user #&& (force || (user.sign_in_token.blank? || user.sign_in_token_sent_at < Magic::Link.token_expiration_hours.hours.ago))
             raw, enc = Devise.token_generator.generate(Magic::Link.user_class, :sign_in_token)
             user.sign_in_token = enc
             user.sign_in_token_sent_at = Time.current
@@ -29,8 +30,8 @@ module Magic
             raw
           else
             p 'could not create token...'
-            p user
-            p force 
+             
+            return false
           end
         end
     end
