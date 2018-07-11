@@ -9,7 +9,9 @@ module Magic
 
       def create
         @magic_link = MagicLink.new(permitted_params)
-        @magic_link.send_login_instructions(true)
+        token = @magic_link.send_login_instructions(true)
+        p 'sending token '
+        p token
         redirect_to main_app.root_path, notice: "Check your email for a sign in link!"
       end
 
