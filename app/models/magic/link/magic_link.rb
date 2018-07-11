@@ -4,8 +4,8 @@ module Magic
       include ActiveModel::Model
       attr_accessor :email
 
-      def send_login_instructions
-        token = set_sign_in_token
+      def send_login_instructions(force)
+        token = set_sign_in_token(force)
         send_magic_link_email(token) if token
         token
       end
