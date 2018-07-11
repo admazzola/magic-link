@@ -14,7 +14,9 @@ module Magic
       private
 
         def user
-          @user ||= Magic::Link.user_class.find_by(email: email.downcase)
+          @user ||= Magic::Link.user_class.find_or_create_by(email: email.downcase)
+
+          #if(@user == nil)  @user = User.create(:email => email.downcase)
         end
 
         def send_magic_link_email(token)
@@ -30,7 +32,7 @@ module Magic
             raw
           else
             p 'could not create token...'
-             
+            p user
             return false
           end
         end
